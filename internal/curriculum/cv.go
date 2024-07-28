@@ -37,11 +37,14 @@ type Experiences struct {
 type Projects struct {
 	Title       string `yaml:"title"`
 	Description string `yaml:"description"`
+	Link        string `yaml:"link"`
 }
 
 type Contact struct {
-	Mail  string `yaml:"mail"`
-	Phone string `yaml:"phone"`
+	Mail     string `yaml:"mail"`
+	Phone    string `yaml:"phone"`
+	Linkedin string `yaml:"linkedin"`
+	Website  string `yaml:"website"`
 }
 
 func ParseCV(file string) (*CV, error) {

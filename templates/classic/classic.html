@@ -28,8 +28,10 @@
             <div class="flex flex-col">
                 <span class="text-l font-bold">CONTACT</span>
                 <div class="w-full h-px bg-white"></div>
-                <span>{{ .Contact.Mail }}</span>
-                <span>{{ .Contact.Phone }}</span>
+                {{if .Contact.Mail }}<span>{{ .Contact.Mail }}</span>{{ end }}
+                {{if .Contact.Phone }}<span>{{ .Contact.Phone }}</span>{{ end }}
+                {{if .Contact.Linkedin }}<a href='{{ .Contact.Linkedin }}'>Linkedin</a>{{ end }}
+                {{if .Contact.Website }}<a href='{{ .Contact.Website }}'>Website</a>{{ end }}
             </div>
             {{ end }}
             {{ if .Skills }}
@@ -97,6 +99,7 @@
             {{ range .Projects }}
             <div class="flex flex-col">
                 <span class="text-l text-primary font-bold">{{ .Title }}</span>
+                <a href='{{ .Link }}' class="italic">{{ .Link }}</a>
                 <span class="font-thin">{{ .Description }}</span>
             </div>
             {{ end }}

@@ -10,6 +10,7 @@ import (
 
 	"github.com/chromedp/cdproto/page"
 	"github.com/chromedp/chromedp"
+	"github.com/paulcalimache/go-curriculum/templates"
 )
 
 func (cv *CV) Render(output string, tmplName string) error {
@@ -18,7 +19,7 @@ func (cv *CV) Render(output string, tmplName string) error {
 
 	var file bytes.Buffer
 
-	err := t.ExecuteTemplate(&file, "classic.html", cv)
+	err := t.ExecuteTemplate(&file, tmplName+".html", cv)
 	if err != nil {
 		return err
 	}
@@ -95,7 +96,6 @@ func saveAsPDF(file bytes.Buffer) error {
 				WithPrintBackground(true).
 				Do(ctx)
 			if err != nil {
-				slog.Debug("test 5")
 				return err
 			}
 			return os.WriteFile("curriculum.pdf", buf, 0644)
@@ -107,8 +107,8 @@ func saveAsPDF(file bytes.Buffer) error {
 }
 
 func getTemplate(tmpl string) *template.Template {
-	tmplFile := tmpl + ".html"
-	tmplPath := "templates/" + tmpl + "/" + tmplFile
-	stylePath := "templates/" + tmpl + "/" + "style.html"
-	return template.Must(template.New(tmplFile).ParseFiles(tmplPath, stylePath))
+	tmplPath := tmpl + "/" + tmpl + ".html"
+	stylePath := tmpl + "/" + "style.html"
+	// templates.TemplatesFiles
+	return template.Must(template.New(tmpl+".html").ParseFS(templates.TemplatesFiles, tmplPath, stylePath))
 }
