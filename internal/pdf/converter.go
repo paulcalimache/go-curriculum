@@ -50,7 +50,7 @@ func ConvertHtmlToPdf(file bytes.Buffer) error {
 				WithMarginTop(0).
 				WithMarginRight(0).
 				WithMarginLeft(0).
-				WithPaperHeight(11.67).
+				WithPaperHeight(11.69).
 				WithPaperWidth(8.27).
 				WithPrintBackground(true).
 				Do(ctx)
