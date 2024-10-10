@@ -1,8 +1,7 @@
 name: Release Go project
 on:
-  push:
-    tags:
-      - "*"
+  release:
+    types: [created]
 
 permissions:
     contents: write
