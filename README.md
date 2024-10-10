@@ -14,10 +14,6 @@ Go curriculum is available on Linux, macOS and Windows platforms. Binaries for L
   go install github.com/paulcalimache/go-curriculum@latest
   ```
 
-### Install from binaries
-
-
-
 ## CLI Usage
 
 ```bash
