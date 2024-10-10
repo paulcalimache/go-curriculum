@@ -3,7 +3,7 @@ package pdf
 import (
 	"bytes"
 	"context"
-	"log/slog"
+	"log"
 	"os"
 	"sync"
 
@@ -12,7 +12,7 @@ import (
 )
 
 func ConvertHtmlToPdf(file bytes.Buffer) error {
-	ctx, cancelCtx := chromedp.NewContext(context.Background(), chromedp.WithLogf(slog.Info))
+	ctx, cancelCtx := chromedp.NewContext(context.Background(), chromedp.WithLogf(log.Printf))
 	defer cancelCtx()
 
 	var wg sync.WaitGroup
@@ -55,7 +55,6 @@ func ConvertHtmlToPdf(file bytes.Buffer) error {
 				WithPrintBackground(true).
 				Do(ctx)
 			if err != nil {
-				slog.Debug("test 5")
 				return err
 			}
 			return os.WriteFile("curriculum.pdf", buf, 0644)

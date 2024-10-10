@@ -50,5 +50,6 @@ func run(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
+	cmd.Printf("CV successfully generated at %s\n", output)
 	return nil
 }

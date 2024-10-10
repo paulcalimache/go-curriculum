@@ -2,7 +2,6 @@ package curriculum
 
 import (
 	"bytes"
-	"log/slog"
 	"os"
 
 	"github.com/paulcalimache/go-curriculum/internal/pdf"
@@ -10,7 +9,6 @@ import (
 )
 
 func (cv *CV) Render(output string, tmplName string) error {
-	slog.Info("Rendering the " + tmplName + " template ...")
 	file, err := templates.Templetize(tmplName, cv)
 	if err != nil {
 		return err
@@ -35,8 +33,6 @@ func (cv *CV) Render(output string, tmplName string) error {
 	if err != nil {
 		return err
 	}
-
-	slog.Info("CV rendered at " + output)
 	return nil
 }
 
