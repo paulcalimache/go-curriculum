@@ -14,10 +14,6 @@ Go curriculum is available on Linux, macOS and Windows platforms. Binaries for L
   go install github.com/paulcalimache/go-curriculum@latest
   ```
 
-### Install from binaries
-
-
-
 ## CLI Usage
 
 ```bash
@@ -55,3 +51,7 @@ Will generate the following curriculum vitae :
 
 - [ ] Unit tests
 - [ ] More templates
+- [ ] Auto resize texts to fill A4 page
+- [ ] Publish on main package manager (homebrew, winget, snap, ...)
+- [ ] Docker image
+- [ ] Generate pdf without chrome needed
