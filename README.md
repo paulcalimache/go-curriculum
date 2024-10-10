@@ -51,3 +51,7 @@ Will generate the following curriculum vitae :
 
 - [ ] Unit tests
 - [ ] More templates
+- [ ] Auto resize texts to fill A4 page
+- [ ] Publish on main package manager (homebrew, winget, snap, ...)
+- [ ] Docker image
+- [ ] Generate pdf without chrome needed
