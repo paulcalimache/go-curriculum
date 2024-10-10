@@ -1,4 +1,4 @@
-name: goci
+name: Lint, build & test
 on: [push]
 
 permissions:
