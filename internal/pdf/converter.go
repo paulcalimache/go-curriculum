@@ -11,7 +11,10 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
-func ConvertHtmlToPdf(file bytes.Buffer) error {
+func SaveFileAsPDF(file bytes.Buffer, output string) error {
+	if err := mkdirIfNotExist(output); err != nil {
+		return err
+	}
 	ctx, cancelCtx := chromedp.NewContext(context.Background(), chromedp.WithLogf(log.Printf))
 	defer cancelCtx()
 
@@ -62,5 +65,19 @@ func ConvertHtmlToPdf(file bytes.Buffer) error {
 	); err != nil {
 		return err
 	}
+	return nil
+}
+
+func mkdirIfNotExist(output string) error {
+	// Create output directory
+	err := os.MkdirAll(output, os.ModePerm)
+	if err != nil {
+		return err
+	}
+	err = os.Chdir(output)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

@@ -1,5 +1,19 @@
 package curriculum
 
+import (
+	"bytes"
+	"errors"
+	"fmt"
+	"io/fs"
+	"path"
+	"slices"
+	"strings"
+	"text/template"
+
+	"github.com/paulcalimache/go-curriculum/internal/templates"
+	"gopkg.in/yaml.v3"
+)
+
 type CV struct {
 	Firstname   string        `yaml:"firstname"`
 	Lastname    string        `yaml:"lastname"`
@@ -38,4 +52,32 @@ type Contact struct {
 	Phone    string `yaml:"phone"`
 	Linkedin string `yaml:"linkedin"`
 	Website  string `yaml:"website"`
+}
+
+func Parse(fileSystem fs.FS, filePath string) (*CV, error) {
+	if !strings.Contains(filePath, ".yaml") && !strings.Contains(filePath, ".yml") {
+		return nil, errors.New(path.Ext(filePath) + " is not a valid file extension")
+	}
+	file, err := fs.ReadFile(fileSystem, filePath)
+	if err != nil {
+		return nil, err
+	}
+	var cv CV
+	err = yaml.Unmarshal(file, &cv)
+	return &cv, err
+}
+
+func (cv *CV) Templetize(tmplName string) (bytes.Buffer, error) {
+	var file bytes.Buffer
+	if !slices.Contains(templates.GetTemplatesList(), tmplName) {
+		return file, fmt.Errorf("template %s doesn't exist. Here are the existing templates : %v", tmplName, templates.GetTemplatesList())
+	}
+
+	t, err := template.New(tmplName+".html").ParseFS(templates.TemplatesFiles, fmt.Sprintf("%s/*.html", tmplName))
+	if err != nil {
+		return file, err
+	}
+
+	err = t.ExecuteTemplate(&file, tmplName+".html", cv)
+	return file, err
 }

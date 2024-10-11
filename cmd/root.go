@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/paulcalimache/go-curriculum/internal/curriculum"
+	"github.com/paulcalimache/go-curriculum/internal/pdf"
 	"github.com/spf13/cobra"
 )
 
@@ -18,9 +19,8 @@ based from a yaml config file.`,
 }
 
 func init() {
-	rootCmd.Flags().StringP("file", "f", "", "Yaml data file")
-	err := rootCmd.MarkFlagRequired("file")
-	if err != nil {
+	rootCmd.Flags().StringP("file", "f", "", "Yaml data file (relative path)")
+	if err := rootCmd.MarkFlagRequired("file"); err != nil {
 		log.Fatal(err)
 	}
 	rootCmd.Flags().StringP("output", "o", "./output", "Output directory")
@@ -28,8 +28,7 @@ func init() {
 }
 
 func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
+	if err := rootCmd.Execute(); err != nil {
 		os.Exit(1)
 	}
 }
@@ -40,14 +39,18 @@ func run(cmd *cobra.Command, args []string) error {
 	template, _ := cmd.Flags().GetString("template")
 
 	cmd.Printf("Parsing file %s ...\n", file)
-	cv, err := curriculum.ParseFile(file)
+	cv, err := curriculum.Parse(os.DirFS("."), file)
 	if err != nil {
 		return err
 	}
 
-	cmd.Printf("Generating curriculum vitae using '%s' template ...\n", template)
-	err = cv.Render(output, template)
+	cmd.Printf("Templetize curriculum vitae using '%s' template ...\n", template)
+	f, err := cv.Templetize(template)
 	if err != nil {
+		return err
+	}
+
+	if err = pdf.SaveFileAsPDF(f, output); err != nil {
 		return err
 	}
 	cmd.Printf("CV successfully generated at %s\n", output)

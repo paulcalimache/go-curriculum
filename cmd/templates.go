@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/paulcalimache/go-curriculum/internal/templates"
 	"github.com/spf13/cobra"
 )
@@ -17,6 +19,6 @@ func init() {
 }
 
 func listTemplates(cmd *cobra.Command, args []string) error {
-	rootCmd.Print(templates.GetTemplatesList())
+	rootCmd.Print(fmt.Sprintf("Templates list : %v\n", templates.GetTemplatesList()))
 	return nil
 }
